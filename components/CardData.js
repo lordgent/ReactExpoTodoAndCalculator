@@ -3,15 +3,16 @@ import {
   NativeBaseProvider,
   Text,
   Box,
-  AddIcon,
-  Stack,
-  ChevronDownIcon,
+  CloseIcon,
+  ScrollView,
   FlatList,
+  Stack,
   HStack,
 } from "native-base";
 import axios from "axios";
 import { AppContext } from "../context/contextapp";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, SafeAreaView } from "react-native";
+import { fontSize } from "styled-system";
 
 function CardData() {
   const [todos, settodos] = useState([]);
@@ -37,48 +38,64 @@ function CardData() {
   }, []);
 
   const renderItem = ({ item }) => (
-    <HStack space={3} alignItems="center" key={item?.id}>
-      <Box
-        h="40"
-        w="20"
-        borderWidth="1"
-        borderColor={mode === "sun" ? "indigo.800" : "muted.800"}
-        marginTop="2px"
-        padding="10px"
-        borderRadius="15"
-        marginBottom="5px"
-      >
-        <Text color={mode === "sun" ? "indigo.800" : "muted.800"}>
-          {item?.title}
+    <Box
+      marginTop="10px"
+      padding="25px"
+      bg="muted.100"
+      borderRadius="20px"
+      marginBottom="20px"
+      height="120px"
+      shadow={2}
+      width="100%"
+      _text={{
+        fontSize: "15px",
+        fontWeight: "medium",
+        letterSpacing: "lg",
+        color: `${mode === "sun" ? "indigo.800" : "muted.800"}`,
+      }}
+    >
+      <Stack>
+        <HStack space={3} h="20">
+          <Text
+            h="40"
+            color={mode === "sun" ? "indigo.800" : "muted.800"}
+            w="20"
+          >
+            {item.title}
+          </Text>
+          <CloseIcon size="2" right="2" position="absolute" color="muted.500" />
+        </HStack>
+        <Text
+          bottom="3"
+          color={mode === "sun" ? "indigo.800" : "muted.800"}
+          fontSize="10"
+        >
+          {item.createdAt}
         </Text>
-      </Box>
-    </HStack>
+      </Stack>
+    </Box>
   );
 
   return (
-    <NativeBaseProvider>
-      <Box
-        width="100%"
-        padding="30px"
-        height="100%"
-        backgroundColor="white"
-        marginTop="30%"
-        borderTopRightRadius="20"
-        borderTopLeftRadius="20"
-      >
-        {isLoading ? (
-          <Box>Loading...</Box>
-        ) : (
-          <Stack>
-            <FlatList
-              data={todos}
-              keyExtractor={(item) => item?.id?.toString()}
-              renderItem={renderItem}
-            />
-          </Stack>
-        )}
-      </Box>
-    </NativeBaseProvider>
+    <Box
+      zIndex="2"
+      width="100%"
+      height="100%"
+      backgroundColor="muted.50"
+      borderTopRightRadius="25"
+      borderTopLeftRadius="25"
+      padding="20px"
+      marginTop="-80px"
+    >
+      <FlatList
+        data={todos}
+        keyExtractor={(item) => item?.id?.toString()}
+        renderItem={renderItem}
+        refreshing={isLoading}
+        onRefresh={getTodos}
+        showsVerticalScrollIndicator={false}
+      />
+    </Box>
   );
 }
 

@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "native-base";
 import { AppContext } from "./context/contextapp";
+import DetailScreen from "./screens/DetailScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -63,6 +64,13 @@ const Container = () => {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name="DetailTodo"
+          options={{
+            headerShown: false,
+          }}
+          component={DetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

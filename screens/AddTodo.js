@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Center, Box, Text, Input, Button } from "native-base";
+import { Center, Box, Text, Input, Button, Alert } from "native-base";
 import { AppContext } from "../context/contextapp";
 import axios from "axios";
 function AddTodo({ navigation }) {
   const [mode] = useContext(AppContext);
+  const [alert, setalert] = useState(null);
   const [form, setform] = useState({
     title: "",
     todos: "",
@@ -33,6 +34,14 @@ function AddTodo({ navigation }) {
       );
 
       if (response?.status === 200) {
+        const alert = (
+          <>
+            <Alert>
+              <Text>Success</Text>
+            </Alert>
+          </>
+        );
+        setalert(alert);
         console.log("success");
         console.log(form);
       }
